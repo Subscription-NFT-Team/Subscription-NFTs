@@ -1,10 +1,8 @@
 // SPDX-License-Identifier: MIT
-
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-
 
 contract SubscriptionNFT is ERC721 {
     using Counters for Counters.Counter;
@@ -41,28 +39,32 @@ contract SubscriptionNFT is ERC721 {
         return true;
     }
 
-    function getTiers(uint256 _templateId) external view returns ( SubscriptionOption[] memory) {
+    function getTiers(uint256 _templateId)
+        external
+        view
+        returns (SubscriptionOption[] memory)
+    {
         SubscriptionTemplate storage _template = _subscriptionTemplates[
             _templateId
-        ];        
-        
+        ];
+
         require(_template.subscriptionOptions.length > 0, "Template not found");
-        
+
         return _template.subscriptionOptions;
     }
 
     function issueSubscriptionNFT(
-        address recipient,
         uint256 subscriptionTemplateId,
         uint256 subscriptionOptionSelectionIndex
-    ) public returns (uint256) {
+    ) external payable returns (uint256) {
         // TODO implement payment logic
 
         _tokenIds.increment();
 
+        // TODO check if option exists??
         uint256 newTokenId = _tokenIds.current();
 
-        _mint(recipient, newTokenId);
+        _mint(msg.sender, newTokenId);
 
         SubscriptionOption
             memory selectedSubscriptionOption = _subscriptionTemplates[

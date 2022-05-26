@@ -2,39 +2,42 @@ const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
 describe("Subscription Contract : Mint", () => {
-    let owner;
-	let account1;
-    let SubscriptionNFT, subscriptionContract;
+  let owner;
+  let account1;
+  let SubscriptionNFT, subscriptionContract;
 
-    beforeEach(async () => {
-        const accounts = await ethers.getSigners();
+  beforeEach(async () => {
+    const accounts = await ethers.getSigners();
 
-		owner = accounts[0];
-		account1 = accounts[1];
-        
-        SubscriptionNFT = await ethers.getContractFactory("SubscriptionNFT");
-        subscriptionContract = await SubscriptionNFT.deploy();
-        subscriptionContract.dummyData();
-    });
+    owner = accounts[0];
+    account1 = accounts[1];
 
-	it("should return tiers", async function () {
-        await expect(
-            subscriptionContract.dummyData()
-        ).to.be.ok;
-    });
+    SubscriptionNFT = await ethers.getContractFactory("SubscriptionNFT");
+    subscriptionContract = await SubscriptionNFT.deploy();
+    subscriptionContract.dummyData();
+  });
 
-    it("should revert when template is not found", async function () {
-        await expect(
-            subscriptionContract.getTiers(1)
-        ).to.be.revertedWith("Template not found");
-    });
+  it("should return tiers", async function () {
+    await expect(subscriptionContract.dummyData()).to.be.ok;
+  });
 
-    it("should return tiers", async function () {
+  it("should revert when template is not found", async function () {
+    await expect(subscriptionContract.getTiers(1)).to.be.revertedWith(
+      "Template not found"
+    );
+  });
 
-        const tiers = await subscriptionContract.getTiers(0);
-        // console.log(tiers);
-        await expect(tiers
-        ).to.be.an('array').that.is.not.empty;
-    });    
+  it("should return tiers", async function () {
+    const tiers = await subscriptionContract.getTiers(0);
 
+    await expect(tiers).to.be.an("array").that.is.not.empty;
+  });
+
+  it("should mint subscription", async function () {
+    const tx = await subscriptionContract.connect(account1).issueSubscriptionNFT(0, 0);
+
+    await expect(
+      await subscriptionContract.balanceOf(account1.address)
+    ).to.equal(1);
+  });
 });
