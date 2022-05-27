@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import PlanCard from "./ plan-card/PlanCard";
 
 const dummyPlanOptions = [
@@ -44,8 +44,10 @@ const dummyPlanOptions = [
 
 export default function PlanOptions() {
     return (
-        <Grid container justifyContent="center" spacing={6}>
-            {dummyPlanOptions.map((plan) => <PlanCard plan={plan} />)}
-        </Grid>
+        // <Box m={4}>
+            <Grid container direction="column" alignItems="center" spacing={6} padding="20px">
+                {dummyPlanOptions.map((plan) => <PlanCard plan={plan} />)}
+            </Grid>
+        // </Box>
     );
 }

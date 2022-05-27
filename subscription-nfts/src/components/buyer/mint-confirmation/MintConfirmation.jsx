@@ -1,4 +1,5 @@
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const nftDetails = {
         name: 'NY Times',
@@ -10,15 +11,26 @@ const nftDetails = {
 }
 
 export default function MintConfirmation() {
+    let navigate = useNavigate();
+    const handleClick = () => {
+        navigate("/logged-in-user");
+    }
 
     return (
-        <div style={{ padding: "1rem 0", justifyContent: "center", maxWidth: "500px", padding: "20px" }}>
+        <div style={{ marginLeft: "20px", alignItems: "center", justifyContent: "center", maxWidth: "500px", padding: "20px" }}>
             <Typography variant="h5" paddingBottom="30px">Subscription confirmed. Thank you for minting!</Typography>
             <Typography variant="body2">Name: {nftDetails.name}</Typography>
             <Typography variant="body2">Description: {nftDetails.description}</Typography>
             <Typography variant="body2">Tier: {nftDetails.tier}</Typography>
             <Typography variant="body2">Expiration: {nftDetails.expiration}</Typography>
             <Typography variant="body2">Price: {nftDetails.price} USDC</Typography>
+            <Button
+                variant="contained"
+                onClick="handleClick"
+                style={{ marginTop: "10px"}}
+            >
+                See Content
+            </Button>
         </div>
     );
 }

@@ -1,4 +1,5 @@
 import ProjectCard from "./project-card/ProjectCard";
+import { Grid } from '@mui/material';
 
 const dummyProjectData = [
     {
@@ -23,8 +24,8 @@ const dummyProjectData = [
 
 export default function BuyerSelectProject() {
     return (
-        <div>
+        <Grid container direction="column" alignItems="center">
             {dummyProjectData.map((data) => <ProjectCard data={data} />)}
-        </div>
+        </Grid>
     );
 }

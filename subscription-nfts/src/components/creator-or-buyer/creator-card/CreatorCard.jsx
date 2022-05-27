@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 export default function CreatorCard() {
     let navigate = useNavigate();
     function handleClick() {
-        navigate("/creator-form");
+        navigate("/form");
     }
 
     return (

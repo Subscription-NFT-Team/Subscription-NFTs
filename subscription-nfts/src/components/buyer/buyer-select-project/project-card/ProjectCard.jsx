@@ -10,12 +10,12 @@ export default function ProjectCard({ data }) {
     let navigate = useNavigate();
     
     function handleClick() {
-        navigate("/plan-options")
+        navigate("/mint-nft");
     }
 
     return (
         <Grid item>
-            <Card sx={{ minWidth: 275 }}>
+            <Card style={{ minWidth: 275, maxWidth: 400, margin: 10 }}>
                 <CardContent>
                     <Typography variant="h5">
                         {data.name}

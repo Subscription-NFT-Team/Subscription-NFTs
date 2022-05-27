@@ -1,4 +1,5 @@
 import { ethers } from 'ethers';
+
 // import 'dotenv/config'; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 // import express from 'express';
 // 1: Mainnet
@@ -45,14 +46,13 @@ export const setupEthereumEventListeners = (ethereum) => {
     return ethereum
 }
 
-export const connectWallet = async () => {
-    const { ethereum } = window;
-    console.log('ethereum:', ethereum);
-    if (!ethereum) return null
-    console.log('trying to connect wallet!!!');
-    await ethereum.request({ method: "eth_requestAccounts" });
 
-    window.location.reload()
+export const connectWallet = async () => {
+    
+    const { ethereum } = window;
+    if (!ethereum) return null
+    await ethereum.request({ method: "eth_requestAccounts" });
+    // window.location.reload()
 }
 
 export const getCurrentAccount = async () => {
