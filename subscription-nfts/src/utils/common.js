@@ -72,6 +72,31 @@ export const addSubscriptionTemplate = async (name, price, term) => {
       }
 }
 
+export const mintSubscriptionNFT = async (id) => {
+    if (typeof window.ethereum !== "undefined") {
+        // const provider = new ethers.providers.Web3Provider(ethereum, "any");
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+    
+        const contract = new ethers.Contract(
+          contractAddress.SubscriptionNFTContract,
+          SubscriptionNFT.abi,
+          signer
+        );
+    
+
+        console.log(contract);
+        // string memory subscriptionName, uint256 price, uint256 term
+        try {
+          const data = await contract.issueSubscriptionNFT(id);
+          console.log("mint data: ", data);
+        } catch (err) {
+          console.log("Error: ", err);
+        }
+        return true;
+      }
+}
+
 export const getEthereumObject = () => {
   const { ethereum } = window;
   if (!ethereum) return null;

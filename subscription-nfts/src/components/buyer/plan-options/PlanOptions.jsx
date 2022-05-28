@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-import { Box, Grid } from "@mui/material";
-=======
 import React, { useEffect } from "react"
 import {fetchProjects} from "../../../utils/common"
-import { Grid } from "@mui/material";
->>>>>>> main
+import { Box, Grid } from "@mui/material";
 import PlanCard from "./ plan-card/PlanCard";
 
 const dummyPlanOptions = [

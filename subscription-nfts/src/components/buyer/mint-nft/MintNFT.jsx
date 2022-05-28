@@ -7,6 +7,7 @@ import { Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { mintSubscriptionNFT } from "../../../utils/common";
 
 const nftData = {
     name: 'NY Times',
@@ -21,6 +22,7 @@ export default function MintNFT() {
     }
 
     const handleClick = async (event) => {
+        mintSubscriptionNFT(1);
         event.preventDefault();
         toast("Successfully minted NFT!");
         await timeout(4000);
