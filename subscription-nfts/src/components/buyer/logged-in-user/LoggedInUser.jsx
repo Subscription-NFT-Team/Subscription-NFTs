@@ -1,14 +1,7 @@
 import { Grid, Paper, Typography } from "@mui/material";
 import StyledImage from './styled-image/StyledImage';
-
-const nftDetails = {
-        name: 'NY Times',
-        account: '0xb794f5ea0ba39494ce839613fffba74279579269',
-        description: 'News subscription',
-        tier: 'Basic',
-        expiration: '1 year',
-        price: '30'
-}
+import { checkForValidNFT } from "../../../utils/common";
+import React, { useState, useEffect } from 'react';
 
 const imageAddresses = {
     free: [
@@ -25,6 +18,20 @@ const imageAddresses = {
 
 export default function LoggedInUser() {
     // Note: disable viewing of subscriber only when user doesn't have appropriate nft
+    const [validUser, setValidUser] = useState(false);
+    
+    useEffect(() => {
+        (async () => {
+            let valid = await checkForValidNFT(1);
+            console.log('valid: ', valid);
+            setValidUser(valid);
+        })();
+
+        return () => {
+        };
+    }, []);
+
+    console.log();
     return (
         <Grid>
             <Paper style={{padding: "5px", width: '300px'}}>
@@ -42,12 +49,20 @@ export default function LoggedInUser() {
                     Subscribers Only:
                 </Typography>
             </Paper>
+            {
+                validUser ?
 
-            <Grid container style={{padding: "20px"}}>
+                <Grid container style={{padding: "20px"}}>
                 {imageAddresses.subscriber.map((image) => {
                     return <StyledImage image={image} />
                 })}
-            </Grid>
+                </Grid>
+
+                :
+
+                <Typography variant="h4">Content is only for subscribers!</Typography>
+            }
+            
         </Grid>
     );
 }

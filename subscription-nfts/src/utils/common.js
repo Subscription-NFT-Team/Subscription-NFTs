@@ -124,6 +124,47 @@ export const mintSubscriptionNFT = async (id) => {
       }
 }
 
+export const checkForValidNFT = async (id) => {
+    
+
+    if (typeof window.ethereum !== "undefined") {
+        // const provider = new ethers.providers.Web3Provider(ethereum, "any");
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+    
+        const contract = new ethers.Contract(
+          contractAddress.SubscriptionNFTContract,
+          SubscriptionNFT.abi,
+          signer
+        );
+
+        try {
+          const data = await contract.getOwnerSubscriptions();
+          for (let i = 0; i < data.length; i++) {
+            let subId = data[i][0].toNumber();
+            let expirationTime = data[i][1].toNumber();
+            console.log('expiration: ', expirationTime);
+            console.log('sub id: ', subId);
+            var now = Math.round((new Date()).getTime() / 1000);
+            console.log('date now: ', now);
+            if (subId === id) {
+                console.log('id match!');
+                if (now > expirationTime) {
+                    console.log('youre approved');
+                    return true;
+                }
+            }
+          }
+          return false;
+          
+          console.log("owner sub data: ", data);
+        } catch (err) {
+          console.log("Error: ", err);
+        }
+        return true;
+      }
+}
+
 export const getEthereumObject = () => {
   const { ethereum } = window;
   if (!ethereum) return null;

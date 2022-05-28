@@ -22,7 +22,7 @@ export default function MintNFT() {
     }
 
     const handleClick = async (event) => {
-        mintSubscriptionNFT(1);
+        mintSubscriptionNFT(3);
         event.preventDefault();
         toast("Successfully minted NFT!");
         await timeout(4000);
