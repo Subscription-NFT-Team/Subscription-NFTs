@@ -43,21 +43,33 @@ export const fetchSubscriptions = async () => {
         // console.log('data name', data[1]);
         // console.log('data price', data[2].toNumber());
         // console.log('data term', data[3].toNumber());
-        
+        let name = data[1];
+        let price = data[2].toNumber();
+        let term = data[3].toNumber();
+        let termString;
+        if (term == 60) {
+            termString = '1 Minute';
+        } 
+        if (term == 2629743) {
+            termString = '1 Month';
+        }
+        if (term == 31556926) {
+            termString = '1 Year';
+        }
         let obj = {
             id: i,
-            name: data[1],
-            price: data[2].toNumber(),
-            term: data[3].toNumber()
+            name: name,
+            price: price,
+            term: termString
         }
         arrData.push(obj);
       }
       
       console.log("arr data: ", arrData);
+      return arrData;
     } catch (err) {
       console.log("Error: ", err);
     }
-    return true;
   }
 };
 
