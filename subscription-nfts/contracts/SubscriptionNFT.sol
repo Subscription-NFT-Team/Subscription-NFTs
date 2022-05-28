@@ -13,8 +13,6 @@ contract SubscriptionNFT is ERC721 {
     Counters.Counter private _tokenIds;
     Counters.Counter private _subscriptionTemplateIds;
 
-    event CreatedSubscriptionTemplate(uint256 _subscriptionTemplateId);
-
     struct TokenData {
         uint256 subscriptionTemplateId;
         uint256 expirationTime;
@@ -26,8 +24,8 @@ contract SubscriptionNFT is ERC721 {
     struct SubscriptionTemplate {
         address creatorAddress;
         string subscriptionName;
-        uint256 price;
-        uint256 term;
+        uint256 price; // in wei
+        uint256 term; // in seconds
     }
 
     mapping(uint256 => SubscriptionTemplate) public subscriptionTemplates;
@@ -41,21 +39,21 @@ contract SubscriptionNFT is ERC721 {
         SubscriptionTemplate subscriptionData;
     }
 
-    constructor() ERC721("SubscriptionNFT", "SUB") {}
-
-
     event Added(string subscriptionName, uint256 price, uint256 term);
     event Issued(address recipient, uint256 subscriptionTemplateId);
 
+    constructor() ERC721("SubscriptionNFT", "SUB") {}
+
     function createSubscriptionTemplate(string memory subscriptionName, uint256 price, uint256 term) public returns (uint256) {
+
         require(term == 60 || term == 2629743 || term == 31556926, "Invalid term");
-        require(price > 0 && price < 1000000, "Invalid price");
+        require(price > 0 && price < 10**24, "Invalid price");
         require(bytes(subscriptionName).length > 0 && bytes(subscriptionName).length <= 32, "Invalid name");
 
         _subscriptionTemplateIds.increment();
         uint256 newSubscriptionTemplateId =  _subscriptionTemplateIds.current();
 
-       subscriptionTemplates[newSubscriptionTemplateId] = SubscriptionTemplate(
+        subscriptionTemplates[newSubscriptionTemplateId] = SubscriptionTemplate(
             {
                 creatorAddress: msg.sender,
                 subscriptionName: subscriptionName,
@@ -66,25 +64,27 @@ contract SubscriptionNFT is ERC721 {
 
         emit Added(subscriptionName, price, term);
         return newSubscriptionTemplateId;
-
     }   
 
     function issueSubscriptionNFT(uint256 subscriptionTemplateId) external payable returns (uint256) {
 
-        // TODO implement payment logic
+        require(subscriptionTemplates[subscriptionTemplateId].creatorAddress != address(0), "A subscription template with this ID does not exist.");
+
+        SubscriptionTemplate memory subscriptionTemplate = subscriptionTemplates[subscriptionTemplateId];
+
+        require (msg.value >= subscriptionTemplate.price, "Value sent is less than subscription price.");
+
+        payable(subscriptionTemplate.creatorAddress).transfer(subscriptionTemplate.price);
 
         _tokenIds.increment();
-
-        // TODO check if option exists??
         uint256 newTokenId = _tokenIds.current();
 
         _mint(msg.sender, newTokenId);
 
         SubscriptionTemplate memory selectedSubscriptionTemplate = subscriptionTemplates[subscriptionTemplateId];
 
-
         _tokenDatas[newTokenId].subscriptionTemplateId = subscriptionTemplateId;
-        _tokenDatas[newTokenId].expirationTime = block.timestamp + selectedSubscriptionTemplate.term;
+        _tokenDatas[newTokenId].expirationTime = block.timestamp + subscriptionTemplate.term;
 
         
         
@@ -111,11 +111,9 @@ contract SubscriptionNFT is ERC721 {
         );
     }
 
-
     function getOwnerSubscriptions() public view returns (TokenData[] memory) {
 
         TokenData[] memory tokenDataList = ownerSubscriptions[msg.sender];
         return tokenDataList;
     }
-
 }
