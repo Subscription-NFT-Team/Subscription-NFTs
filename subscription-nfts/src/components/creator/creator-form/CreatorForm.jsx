@@ -2,6 +2,7 @@ import { Box, Button, Grid, TextField, Typography, FormControl, InputLabel, Sele
 import * as React from 'react';
 import { useContracts } from '../../../contexts';
 import { useNavigate } from 'react-router-dom';
+import { addSubscriptionTemplate } from "../../../utils/common"
 
 export default function CreatorForm() {
     const { nftSubContract } = useContracts();
@@ -33,6 +34,11 @@ export default function CreatorForm() {
             // will need to define this stuff
             // const txn = await nftSubContract.mint(address);
             // await txn.wait();
+            console.log('name: ', name);
+            console.log('name: ', name);
+            console.log('expiration: ', expirationTimeframe);
+            console.log('cost: ', cost);
+            addSubscriptionTemplate(name, cost, expirationTimeframe);
             navigate("/creator-confirmation");
 
         } catch (e) {
@@ -81,9 +87,9 @@ export default function CreatorForm() {
                                     label="Expiration Timeframe"
                                     onChange={handleExpirationChange}
                                 >
-                                    <MenuItem value={'1 minute'}>1 Minute</MenuItem>
-                                    <MenuItem value={'1 month'}>1 Month</MenuItem>
-                                    <MenuItem value={'1 year'}>1 Year</MenuItem>
+                                    <MenuItem value={60}>1 Minute</MenuItem>
+                                    <MenuItem value={2629743}>1 Month</MenuItem>
+                                    <MenuItem value={31556926}>1 Year</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>

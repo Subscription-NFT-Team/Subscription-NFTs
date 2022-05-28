@@ -22,7 +22,7 @@ const networks = {
 export const networkName = networks[networkId];
 
 export const fetchSubscriptions = async () => {
-
+  // call the smart contract, read the current greeting value
   if (typeof window.ethereum !== "undefined") {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
@@ -36,7 +36,7 @@ export const fetchSubscriptions = async () => {
     console.log(contract);
 
     try {
-      const data = await contract.subscriptionTemplates(0);
+      const data = await contract.subscriptionTemplates();
 
       console.log("data: ", data);
     } catch (err) {
@@ -45,6 +45,32 @@ export const fetchSubscriptions = async () => {
     return true;
   }
 };
+
+export const addSubscriptionTemplate = async (name, price, term) => {
+    if (typeof window.ethereum !== "undefined") {
+        // const provider = new ethers.providers.Web3Provider(ethereum, "any");
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+    
+        const contract = new ethers.Contract(
+          contractAddress.SubscriptionNFTContract,
+          SubscriptionNFT.abi,
+          signer
+        );
+    
+
+        console.log(contract);
+        // string memory subscriptionName, uint256 price, uint256 term
+        try {
+          const data = await contract.addCreator(name, price, term);
+    
+          console.log("data: ", data);
+        } catch (err) {
+          console.log("Error: ", err);
+        }
+        return true;
+      }
+}
 
 export const getEthereumObject = () => {
   const { ethereum } = window;
