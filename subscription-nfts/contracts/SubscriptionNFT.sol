@@ -12,8 +12,6 @@ contract SubscriptionNFT is ERC721 {
     Counters.Counter private _tokenIds;
     Counters.Counter private _subscriptionTemplateIds;
 
-    event CreatedSubscriptionTemplate(uint256 _subscriptionTemplateId);
-
     struct TokenData {
         uint256 subscriptionTemplateId;
         uint256 expirationTime;
@@ -25,7 +23,7 @@ contract SubscriptionNFT is ERC721 {
         address creatorAddress;
         string subscriptionName;
         uint256 price; // in wei
-        uint256 term;
+        uint256 term; // in seconds
     }
 
     mapping(uint256 => SubscriptionTemplate) public subscriptionTemplates;
@@ -44,6 +42,7 @@ contract SubscriptionNFT is ERC721 {
     constructor() ERC721("SubscriptionNFT", "SUB") {}
 
     function createSubscriptionTemplate(string memory subscriptionName, uint256 price, uint256 term) public returns (uint256) {
+
         require(term == 60 || term == 2629743 || term == 31556926, "Invalid term");
         require(price > 0 && price < 10**24, "Invalid price");
         require(bytes(subscriptionName).length > 0 && bytes(subscriptionName).length <= 32, "Invalid name");
@@ -62,7 +61,6 @@ contract SubscriptionNFT is ERC721 {
 
         emit Added(subscriptionName, price, term);
         return newSubscriptionTemplateId;
-
     }   
 
     function issueSubscriptionNFT(uint256 subscriptionTemplateId) external payable returns (uint256) {
@@ -86,7 +84,6 @@ contract SubscriptionNFT is ERC721 {
         emit Issued(msg.sender, subscriptionTemplateId);
         return newTokenId;
     }
-   
 
     function getAggregatedTokenData(uint256 tokenId) public view returns (AggregatedTokenData memory) {
 
