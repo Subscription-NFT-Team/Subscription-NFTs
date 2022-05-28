@@ -24,7 +24,7 @@ contract SubscriptionNFT is ERC721 {
     struct SubscriptionTemplate {
         address creatorAddress;
         string subscriptionName;
-        uint256 price;
+        uint256 price; // in wei
         uint256 term;
     }
 
@@ -38,11 +38,10 @@ contract SubscriptionNFT is ERC721 {
         SubscriptionTemplate subscriptionData;
     }
 
-    constructor() ERC721("SubscriptionNFT", "SUB") {}
-
-
     event Added(string subscriptionName, uint256 price, uint256 term);
     event Issued(address recipient, uint256 subscriptionTemplateId);
+
+    constructor() ERC721("SubscriptionNFT", "SUB") {}
 
     function createSubscriptionTemplate(string memory subscriptionName, uint256 price, uint256 term) public returns (uint256) {
         require(term == 60 || term == 2629743 || term == 31556926, "Invalid term");
@@ -52,7 +51,7 @@ contract SubscriptionNFT is ERC721 {
         _subscriptionTemplateIds.increment();
         uint256 newSubscriptionTemplateId =  _subscriptionTemplateIds.current();
 
-       subscriptionTemplates[newSubscriptionTemplateId] = SubscriptionTemplate(
+        subscriptionTemplates[newSubscriptionTemplateId] = SubscriptionTemplate(
             {
                 creatorAddress: msg.sender,
                 subscriptionName: subscriptionName,
@@ -68,19 +67,21 @@ contract SubscriptionNFT is ERC721 {
 
     function issueSubscriptionNFT(uint256 subscriptionTemplateId) external payable returns (uint256) {
 
-        // TODO implement payment logic
+        require(subscriptionTemplates[subscriptionTemplateId].creatorAddress != address(0), "A subscription template with this ID does not exist.");
+
+        SubscriptionTemplate memory subscriptionTemplate = subscriptionTemplates[subscriptionTemplateId];
+
+        require (msg.value >= subscriptionTemplate.price, "Value sent is less than subscription price.");
+
+        payable(subscriptionTemplate.creatorAddress).transfer(subscriptionTemplate.price);
 
         _tokenIds.increment();
-
-        // TODO check if option exists??
         uint256 newTokenId = _tokenIds.current();
 
         _mint(msg.sender, newTokenId);
 
-        SubscriptionTemplate memory selectedSubscriptionTemplate = subscriptionTemplates[subscriptionTemplateId];
-
         _tokenDatas[newTokenId].subscriptionTemplateId = subscriptionTemplateId;
-        _tokenDatas[newTokenId].expirationTime = block.timestamp + selectedSubscriptionTemplate.term;
+        _tokenDatas[newTokenId].expirationTime = block.timestamp + subscriptionTemplate.term;
 
         emit Issued(msg.sender, subscriptionTemplateId);
         return newTokenId;
@@ -101,5 +102,4 @@ contract SubscriptionNFT is ERC721 {
             }
         );
     }
-
 }
