@@ -21,10 +21,10 @@ export default function ProjectCard({ data }) {
                         {data.name}
                     </Typography>
                     <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                        {data.account}
+                        {data.price}
                     </Typography>
                     <Typography variant="body2">
-                        {data.description}
+                        {data.term}
                     </Typography>
                 </CardContent>
                 <CardActions>

@@ -22,9 +22,11 @@ export default function PlanCard({ plan }) {
                         <Typography variant="h5">
                             {plan.name}
                         </Typography>
-                        <PricingOptions pricing={plan.pricing} />
+                        <Typography variant="body1">ID: {plan.id}</Typography>
+                        <Typography variant="body1">Price: {plan.price}</Typography>
+                        <PricingOptions pricing={plan.price} />
                         <Typography variant="body1">
-                            Expiration Date: {plan.expirationDate}
+                            Expiration Date: {plan.term}
                         </Typography>
                     </CardContent>
                     <CardActions>
