@@ -5,6 +5,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract SubscriptionNFT is ERC721 {
+
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
     Counters.Counter private _subscriptionTemplateIds;
@@ -27,36 +28,25 @@ contract SubscriptionNFT is ERC721 {
 
     constructor() ERC721("SubscriptionNFT", "SUB") {}
 
-    function dummyData() public returns (bool) {
-        uint256 _templateId = _subscriptionTemplateIds.current();
+    function createSubscriptionTemplate(string memory subscriptionName, uint256 price, uint256 term) public returns (uint256) {
 
-        SubscriptionTemplate storage _template = _subscriptionTemplates[
-            _templateId
-        ];
-        _template.creatorAddress = msg.sender;
-        _template.subscriptionOptions.push(SubscriptionOption("basic", 10, 30));
-        _template.subscriptionOptions.push(SubscriptionOption("pro", 20, 30));
-        return true;
-    }
+        _subscriptionTemplateIds.increment();
+        uint256 newSubscriptionTemplateId =  _subscriptionTemplateIds.current();
 
-    function getTiers(uint256 _templateId)
-        external
-        view
-        returns (SubscriptionOption[] memory)
-    {
-        SubscriptionTemplate storage _template = _subscriptionTemplates[
-            _templateId
-        ];
+       _subscriptionTemplates[newSubscriptionTemplateId] = SubscriptionTemplate(
+            {
+                creatorAddress: msg.sender,
+                subscriptionName: subscriptionName,
+                price: price,
+                term: term
+            }
+        );
+        return newSubscriptionTemplateId;
 
-        require(_template.subscriptionOptions.length > 0, "Template not found");
+    }   
 
-        return _template.subscriptionOptions;
-    }
+    function issueSubscriptionNFT(address recipient, uint256 subscriptionTemplateId) public returns (uint256) {
 
-    function issueSubscriptionNFT(
-        uint256 subscriptionTemplateId,
-        uint256 subscriptionOptionSelectionIndex
-    ) external payable returns (uint256) {
         // TODO implement payment logic
 
         _tokenIds.increment();
@@ -66,18 +56,12 @@ contract SubscriptionNFT is ERC721 {
 
         _mint(msg.sender, newTokenId);
 
-        SubscriptionOption
-            memory selectedSubscriptionOption = _subscriptionTemplates[
-                subscriptionTemplateId
-            ].subscriptionOptions[subscriptionOptionSelectionIndex];
+        SubscriptionTemplate memory selectedSubscriptionTemplate = _subscriptionTemplates[subscriptionTemplateId];
 
         _tokenDatas[newTokenId].subscriptionTemplateId = subscriptionTemplateId;
-        _tokenDatas[newTokenId].accessTier = selectedSubscriptionOption
-            .accessTier;
-        _tokenDatas[newTokenId].expirationTime =
-            block.timestamp +
-            selectedSubscriptionOption.term;
+        _tokenDatas[newTokenId].expirationTime = block.timestamp + selectedSubscriptionTemplate.term;
 
         return newTokenId;
     }
+
 }

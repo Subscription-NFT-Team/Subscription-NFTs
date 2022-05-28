@@ -2,9 +2,8 @@
  * @type import('hardhat/config').HardhatUserConfig
  */
  require("@nomiclabs/hardhat-waffle");
- require("dotenv").config();
- require("hardhat-gas-reporter");
-
+ require('dotenv').config({ path: require('find-config')('.env') })
+ 
  // Possible network values
  const TEST_NETWORK = "TEST_NETWORK"
  const LOCAL_NETWORK = "LOCAL_NETWORK"
@@ -26,7 +25,7 @@
  }
  
  module.exports = {
-   solidity: "0.8.4",
+   solidity: "0.8.1",
    networks: networks
  };
  
