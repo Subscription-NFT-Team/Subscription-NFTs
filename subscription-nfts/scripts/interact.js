@@ -4,7 +4,7 @@ async function main() {
   const address = process.env.CONTRACT_ADDRESS;
   const Box = await ethers.getContractFactory("SubscriptionNFT");
   const box = await Box.attach(address);
-  const value = await box.getTemplate(1);
+  const value = await box.subscriptionTemplates(1);
   console.log("Box value is", value.toString());
 }
 
