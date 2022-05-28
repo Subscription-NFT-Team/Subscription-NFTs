@@ -45,7 +45,7 @@ contract SubscriptionNFT is ERC721 {
 
     }   
 
-    function issueSubscriptionNFT(address recipient, uint256 subscriptionTemplateId) public returns (uint256) {
+    function issueSubscriptionNFT(address recipient, uint256 subscriptionTemplateId) external payable returns (uint256) {
 
         // TODO implement payment logic
 
