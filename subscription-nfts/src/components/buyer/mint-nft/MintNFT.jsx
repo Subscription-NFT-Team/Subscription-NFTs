@@ -5,6 +5,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const nftData = {
     name: 'NY Times',
@@ -14,14 +16,21 @@ const nftData = {
 
 export default function MintNFT() {
     let navigate = useNavigate();
-    function handleClick() {
+    const timeout = (ms) => {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    const handleClick = async (event) => {
+        event.preventDefault();
+        toast("Successfully minted NFT!");
+        await timeout(4000);
         navigate("/mint-confirmation");
     }
 
     return (
-        <div justifyContent="center">
+        <Grid container direction="column" alignItems="center">
             <Grid item>
-                <Card sx={{ minWidth: 275, maxWidth: 400 }}>
+                <Card style={{ minWidth: 275, maxWidth: 400 }}>
                     <CardContent>
                         <Typography variant="h5">
                             {nftData.name}
@@ -34,14 +43,27 @@ export default function MintNFT() {
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button 
+                    <Button
                             size="medium"
-                            onClick={handleClick}    
-                        >Mint NFT</Button>
+                            variant="contained"
+                            onClick={handleClick}
+
+                        >Mint</Button>
+                        <ToastContainer 
+                            position="bottom-center"
+                            autoClose={3000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                        />
                     </CardActions>
                 </Card>
             </Grid>
-        </div>
+        </Grid>
         
     );
 }

@@ -2,10 +2,12 @@ import { Box, Button, Grid, TextField, Typography, FormControl, InputLabel, Sele
 import * as React from 'react';
 import { useContracts } from '../../../contexts';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { addSubscriptionTemplate } from "../../../utils/common"
 
 export default function CreatorForm() {
-    const { nftSubContract } = useContracts();
+    // const { nftSubContract } = useContracts();
     const [name, setName] = React.useState('');
     const [expirationTimeframe, setExpirationTimeframe] = React.useState(0);
     const [cost, setCost] = React.useState(0);
@@ -29,6 +31,7 @@ export default function CreatorForm() {
     }
 
     let navigate = useNavigate();
+
     const mintNft = async (address) => {
         try {
             // will need to define this stuff
@@ -40,12 +43,22 @@ export default function CreatorForm() {
             console.log('cost: ', cost);
             addSubscriptionTemplate(name, cost, expirationTimeframe);
             navigate("/creator-confirmation");
-
         } catch (e) {
             console.log(e);
         }
+        toast("Wow so easy");
     }
 
+    const timeout = (ms) => {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    const handleClick = async (event) => {
+        event.preventDefault();
+        toast("Subscription options submitted!");
+        await timeout(4000);
+        navigate("/confirmation-creator");
+    }
 
     return (
         <Box
@@ -129,12 +142,29 @@ export default function CreatorForm() {
                         </Grid>
                     </Grid>
                     <Grid item>
-                        <Button 
+                        {/* <Button 
                             variant="contained"
                             onClick={() => mintNft(mintAddress)}
                         >
                             Submit
                         </Button>
+                        <ToastContainer /> */}
+                        <Button
+                            variant="contained"
+                            onClick={handleClick}
+
+                        >Submit</Button>
+                        <ToastContainer 
+                            position="bottom-center"
+                            autoClose={3000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                        />
                     </Grid>
                 </Grid>
             </div>

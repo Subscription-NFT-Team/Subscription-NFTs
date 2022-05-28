@@ -13,13 +13,19 @@ export default function Header() {
   const account = useAccount();
   const isMetamaskConnected = !!account;
   const { nftSubContract } = useContracts();
-  let navigate = useNavigate();
+  // let navigate = useNavigate();
 
-  useEffect(() => {
-    if (isMetamaskConnected) {
-      navigate("/creator-or-buyer")
-    }
-  }, [account, isMetamaskConnected, nftSubContract]);
+  // useEffect(() => {
+  //   if (isMetamaskConnected) {
+  //     // navigate("/creator-or-buyer")
+  //   }
+  // }, [account, isMetamaskConnected, nftSubContract]);
+
+  let navigate = useNavigate();
+  const handleClick = () => {
+    connectWallet();
+    navigate("creator-or-buyer");
+  }
 
   return (
       <Box sx={{ flexGrow: 1 }}>
@@ -31,7 +37,7 @@ export default function Header() {
             {!isMetamaskConnected && (
               <Button 
                 color="inherit"
-                onClick={connectWallet}
+                onClick={handleClick}
               >
                 Connect Wallet
               </Button>

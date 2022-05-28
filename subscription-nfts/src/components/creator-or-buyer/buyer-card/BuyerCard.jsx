@@ -22,7 +22,7 @@ export default function BuyerCard() {
                 <Button 
                     size="small"
                     onClick={handleClick}
-                >Buy Here</Button>
+                >Mint Subscription NFT</Button>
             </CardActions>
         </Card>
     );

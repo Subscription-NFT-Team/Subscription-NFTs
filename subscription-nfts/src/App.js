@@ -30,7 +30,7 @@ function App() {
 
   const load = async () => {
     const ethereum = getEthereumObject();
-    console.log('eth: ', ethereum);
+    // console.log('eth: ', ethereum);
     if (!ethereum) {
       return;
     }
@@ -75,21 +75,24 @@ function App() {
                 margin: "10px"
               }}
             >
+              <Link to="/" style={{ padding: "5px", margin: "5px"}}>
+                Home
+              </Link>
               <Link to="/creator-or-buyer" style={{ padding: "5px", margin: "5px"}}>
                 Creator or Buyer
               </Link>
-              <Link to="/creator-form" style={{ padding: "5px", margin: "5px"}}>
+              <Link to="/form" style={{ padding: "5px", margin: "5px"}}>
                 Creator Form
               </Link>
-              <Link to="/creator-confirmation" style={{ padding: "5px", margin: "5px"}}>
+              <Link to="/confirmation-creator" style={{ padding: "5px", margin: "5px"}}>
                 Creator Confirmation
               </Link>
               <Link to="/select-project" style={{ padding: "5px", margin: "5px"}}>
                 Select Project
               </Link>
-              <Link to="/plan-options" style={{ padding: "5px", margin: "5px"}}>
+              {/* <Link to="/plan-options" style={{ padding: "5px", margin: "5px"}}>
                 See Plan Options
-              </Link>
+              </Link> */}
               <Link to="/mint-nft" style={{ padding: "5px", margin: "5px"}}>
                 Mint NFT
               </Link>
@@ -100,14 +103,13 @@ function App() {
                 Logged In User
               </Link>
             </nav>
-
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/creator-or-buyer" element={<CreatorBuyer />} />
-              <Route path="/creator-form" element={<CreatorForm />} />
-              <Route path="/creator-confirmation" element={<CreatorConfirmation />} />
+              <Route path="/form" element={<CreatorForm />} />
+              <Route path="/confirmation-creator" element={<CreatorConfirmation />} />
               <Route path="/select-project" element={<BuyerSelectProject />} />
-              <Route path="/plan-options" element={<PlanOptions />} />
+              {/* <Route path="/plan-options" element={<PlanOptions />} /> */}
               <Route path="/mint-nft" element={<MintNFT />} />
               <Route path="/mint-confirmation" element={<MintConfirmation />} />
               <Route path="/logged-in-user" element={<LoggedInUser />} />

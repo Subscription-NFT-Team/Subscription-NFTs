@@ -101,6 +101,7 @@ export const setupEthereumEventListeners = (ethereum) => {
   return ethereum;
 };
 
+
 export const connectWallet = async () => {
   const { ethereum } = window;
   console.log("ethereum:", ethereum);
@@ -110,6 +111,7 @@ export const connectWallet = async () => {
 
   window.location.reload();
 };
+
 
 export const getCurrentAccount = async () => {
   const { ethereum } = window;
