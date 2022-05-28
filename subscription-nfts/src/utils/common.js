@@ -89,7 +89,7 @@ export const addSubscriptionTemplate = async (name, price, term) => {
         console.log(contract);
         // string memory subscriptionName, uint256 price, uint256 term
         try {
-          const data = await contract.addCreator(name, price, term);
+          const data = await contract.createSubscriptionTemplate(name, price, term);
     
           console.log("data: ", data);
         } catch (err) {

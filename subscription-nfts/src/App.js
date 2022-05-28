@@ -84,21 +84,21 @@ function App() {
               <Link to="/form" style={{ padding: "5px", margin: "5px"}}>
                 Creator Form
               </Link>
-              <Link to="/confirmation-creator" style={{ padding: "5px", margin: "5px"}}>
+              {/* <Link to="/confirmation-creator" style={{ padding: "5px", margin: "5px"}}>
                 Creator Confirmation
-              </Link>
+              </Link> */}
               <Link to="/select-project" style={{ padding: "5px", margin: "5px"}}>
                 Select Project
               </Link>
               {/* <Link to="/plan-options" style={{ padding: "5px", margin: "5px"}}>
                 See Plan Options
               </Link> */}
-              <Link to="/mint-nft" style={{ padding: "5px", margin: "5px"}}>
+              {/* <Link to="/mint-nft" style={{ padding: "5px", margin: "5px"}}>
                 Mint NFT
               </Link>
               <Link to="/mint-confirmation" style={{ padding: "5px", margin: "5px"}}>
                 Mint Confirmation
-              </Link>
+              </Link> */}
               <Link to="/logged-in-user" style={{ padding: "5px", margin: "5px"}}>
                 Logged In User
               </Link>

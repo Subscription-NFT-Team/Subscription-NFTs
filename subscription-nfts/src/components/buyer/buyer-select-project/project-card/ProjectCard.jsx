@@ -10,7 +10,7 @@ export default function ProjectCard({ data }) {
     let navigate = useNavigate();
     
     function handleClick() {
-        navigate("/mint-nft");
+        navigate("/mint-nft", { state: { data: data }});
     }
 
     return (
