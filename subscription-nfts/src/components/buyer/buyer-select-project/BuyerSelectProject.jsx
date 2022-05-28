@@ -1,6 +1,8 @@
+import {fetchSubscriptions, addSubscriptionTemplate} from "../../../utils/common"
 import ProjectCard from "./project-card/ProjectCard";
 import { Grid } from '@mui/material';
 
+fetchSubscriptions();
 const dummyProjectData = [
     {
         name: 'Netflix',
@@ -23,6 +25,7 @@ const dummyProjectData = [
 ];
 
 export default function BuyerSelectProject() {
+
     return (
         <Grid container direction="column" alignItems="center">
             {dummyProjectData.map((data) => <ProjectCard data={data} />)}

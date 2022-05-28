@@ -4,6 +4,7 @@ import { useContracts } from '../../../contexts';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { addSubscriptionTemplate } from "../../../utils/common"
 
 export default function CreatorForm() {
     // const { nftSubContract } = useContracts();
@@ -30,26 +31,23 @@ export default function CreatorForm() {
     }
 
     let navigate = useNavigate();
-    // const mintNft = (event) => {
-    //     // try {
-    //     //     // event.preventDefault();
-    //     //     // will need to define this stuff
-    //     //     // const txn = await nftSubContract.mint(address);
-    //     //     // await txn.wait();
-    //     //     toast('Basic notification!', {
-    //     //         position: toast.POSITION.BOTTOM_CENTER
-    //     //     });
-    //     //     // toastSuccessMessage('🦄 Subscription options successfully created!');
-    //     //     // console.log('hit success message');
-    //     //     // toast.success('yay, you did it!');
-    //     //     // await timeout(3000);
-    //     //     // navigate("/creator-confirmation");
 
-    //     // } catch (e) {
-    //     //     console.log(e);
-    //     // }
-    //     toast("Wow so easy");
-    // }
+    const mintNft = async (address) => {
+        try {
+            // will need to define this stuff
+            // const txn = await nftSubContract.mint(address);
+            // await txn.wait();
+            console.log('name: ', name);
+            console.log('name: ', name);
+            console.log('expiration: ', expirationTimeframe);
+            console.log('cost: ', cost);
+            addSubscriptionTemplate(name, cost, expirationTimeframe);
+            navigate("/creator-confirmation");
+        } catch (e) {
+            console.log(e);
+        }
+        toast("Wow so easy");
+    }
 
     const timeout = (ms) => {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -102,9 +100,9 @@ export default function CreatorForm() {
                                     label="Expiration Timeframe"
                                     onChange={handleExpirationChange}
                                 >
-                                    <MenuItem value={'1 minute'}>1 Minute</MenuItem>
-                                    <MenuItem value={'1 month'}>1 Month</MenuItem>
-                                    <MenuItem value={'1 year'}>1 Year</MenuItem>
+                                    <MenuItem value={60}>1 Minute</MenuItem>
+                                    <MenuItem value={2629743}>1 Month</MenuItem>
+                                    <MenuItem value={31556926}>1 Year</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
