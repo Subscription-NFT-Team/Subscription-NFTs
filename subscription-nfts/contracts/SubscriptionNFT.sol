@@ -24,7 +24,7 @@ contract SubscriptionNFT is ERC721 {
         uint256 term;
     }
 
-    mapping(uint256 => SubscriptionTemplate) public _subscriptionTemplates;
+    mapping(uint256 => SubscriptionTemplate) public subscriptionTemplates;
 
     constructor() ERC721("SubscriptionNFT", "SUB") {}
 
@@ -33,7 +33,7 @@ contract SubscriptionNFT is ERC721 {
         _subscriptionTemplateIds.increment();
         uint256 newSubscriptionTemplateId =  _subscriptionTemplateIds.current();
 
-       _subscriptionTemplates[newSubscriptionTemplateId] = SubscriptionTemplate(
+       subscriptionTemplates[newSubscriptionTemplateId] = SubscriptionTemplate(
             {
                 creatorAddress: msg.sender,
                 subscriptionName: subscriptionName,
@@ -45,7 +45,7 @@ contract SubscriptionNFT is ERC721 {
 
     }   
 
-    function issueSubscriptionNFT(address recipient, uint256 subscriptionTemplateId) external payable returns (uint256) {
+    function issueSubscriptionNFT(uint256 subscriptionTemplateId) external payable returns (uint256) {
 
         // TODO implement payment logic
 
@@ -56,12 +56,14 @@ contract SubscriptionNFT is ERC721 {
 
         _mint(msg.sender, newTokenId);
 
-        SubscriptionTemplate memory selectedSubscriptionTemplate = _subscriptionTemplates[subscriptionTemplateId];
+        SubscriptionTemplate memory selectedSubscriptionTemplate = subscriptionTemplates[subscriptionTemplateId];
 
         _tokenDatas[newTokenId].subscriptionTemplateId = subscriptionTemplateId;
         _tokenDatas[newTokenId].expirationTime = block.timestamp + selectedSubscriptionTemplate.term;
 
         return newTokenId;
     }
+
+    
 
 }
