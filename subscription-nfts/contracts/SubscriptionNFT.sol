@@ -45,7 +45,7 @@ contract SubscriptionNFT is ERC721 {
 
     function createSubscriptionTemplate(string memory subscriptionName, uint256 price, uint256 term) public returns (uint256) {
         require(term == 60 || term == 2629743 || term == 31556926, "Invalid term");
-        require(price > 0 && price < 1000000, "Invalid price");
+        require(price > 0 && price < 10**24, "Invalid price");
         require(bytes(subscriptionName).length > 0 && bytes(subscriptionName).length <= 32, "Invalid name");
 
         _subscriptionTemplateIds.increment();
