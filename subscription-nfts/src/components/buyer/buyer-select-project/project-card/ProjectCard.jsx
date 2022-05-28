@@ -18,13 +18,13 @@ export default function ProjectCard({ data }) {
             <Card style={{ minWidth: 275, maxWidth: 400, margin: 10 }}>
                 <CardContent>
                     <Typography variant="h5">
-                        {data.name}
+                        Subscription: {data.name}
                     </Typography>
                     <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                        {data.price}
+                        Expires After: {data.term}
                     </Typography>
                     <Typography variant="body2">
-                        {data.term}
+                        Price: ${data.price}
                     </Typography>
                 </CardContent>
                 <CardActions>

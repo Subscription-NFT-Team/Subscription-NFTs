@@ -4,6 +4,7 @@ pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
+
 // import "hardhat/console.sol";
 
 contract SubscriptionNFT is ERC721 {
@@ -18,6 +19,7 @@ contract SubscriptionNFT is ERC721 {
     }
 
     mapping(uint256 => TokenData) private _tokenDatas;
+    mapping(address => TokenData[]) public ownerSubscriptions;
 
     struct SubscriptionTemplate {
         address creatorAddress;
@@ -27,6 +29,7 @@ contract SubscriptionNFT is ERC721 {
     }
 
     mapping(uint256 => SubscriptionTemplate) public subscriptionTemplates;
+
 
     struct AggregatedTokenData {
         uint256 tokenId;
@@ -78,17 +81,25 @@ contract SubscriptionNFT is ERC721 {
 
         _mint(msg.sender, newTokenId);
 
+        SubscriptionTemplate memory selectedSubscriptionTemplate = subscriptionTemplates[subscriptionTemplateId];
+
         _tokenDatas[newTokenId].subscriptionTemplateId = subscriptionTemplateId;
         _tokenDatas[newTokenId].expirationTime = block.timestamp + subscriptionTemplate.term;
+
+        
+        
+        ownerSubscriptions[msg.sender].push(TokenData(subscriptionTemplateId, block.timestamp + selectedSubscriptionTemplate.term));
 
         emit Issued(msg.sender, subscriptionTemplateId);
         return newTokenId;
     }
 
+
+    // address of owner subscription id 
     function getAggregatedTokenData(uint256 tokenId) public view returns (AggregatedTokenData memory) {
 
         TokenData memory tokenData = _tokenDatas[tokenId];
-
+        
         return AggregatedTokenData (
             {
                 tokenId: tokenId,
@@ -98,5 +109,11 @@ contract SubscriptionNFT is ERC721 {
                 subscriptionData: subscriptionTemplates[tokenData.subscriptionTemplateId]
             }
         );
+    }
+
+    function getOwnerSubscriptions() public view returns (TokenData[] memory) {
+
+        TokenData[] memory tokenDataList = ownerSubscriptions[msg.sender];
+        return tokenDataList;
     }
 }

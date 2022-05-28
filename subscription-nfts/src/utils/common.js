@@ -43,21 +43,33 @@ export const fetchSubscriptions = async () => {
         // console.log('data name', data[1]);
         // console.log('data price', data[2].toNumber());
         // console.log('data term', data[3].toNumber());
-        
+        let name = data[1];
+        let price = data[2].toNumber();
+        let term = data[3].toNumber();
+        let termString;
+        if (term == 60) {
+            termString = '1 Minute';
+        } 
+        if (term == 2629743) {
+            termString = '1 Month';
+        }
+        if (term == 31556926) {
+            termString = '1 Year';
+        }
         let obj = {
             id: i,
-            name: data[1],
-            price: data[2].toNumber(),
-            term: data[3].toNumber()
+            name: name,
+            price: price,
+            term: termString
         }
         arrData.push(obj);
       }
       
       console.log("arr data: ", arrData);
+      return arrData;
     } catch (err) {
       console.log("Error: ", err);
     }
-    return true;
   }
 };
 
@@ -105,6 +117,47 @@ export const mintSubscriptionNFT = async (id) => {
         try {
           const data = await contract.issueSubscriptionNFT(id);
           console.log("mint data: ", data);
+        } catch (err) {
+          console.log("Error: ", err);
+        }
+        return true;
+      }
+}
+
+export const checkForValidNFT = async (id) => {
+    
+
+    if (typeof window.ethereum !== "undefined") {
+        // const provider = new ethers.providers.Web3Provider(ethereum, "any");
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+    
+        const contract = new ethers.Contract(
+          contractAddress.SubscriptionNFTContract,
+          SubscriptionNFT.abi,
+          signer
+        );
+
+        try {
+          const data = await contract.getOwnerSubscriptions();
+          for (let i = 0; i < data.length; i++) {
+            let subId = data[i][0].toNumber();
+            let expirationTime = data[i][1].toNumber();
+            console.log('expiration: ', expirationTime);
+            console.log('sub id: ', subId);
+            var now = Math.round((new Date()).getTime() / 1000);
+            console.log('date now: ', now);
+            if (subId === id) {
+                console.log('id match!');
+                if (now > expirationTime) {
+                    console.log('youre approved');
+                    return true;
+                }
+            }
+          }
+          return false;
+          
+          console.log("owner sub data: ", data);
         } catch (err) {
           console.log("Error: ", err);
         }

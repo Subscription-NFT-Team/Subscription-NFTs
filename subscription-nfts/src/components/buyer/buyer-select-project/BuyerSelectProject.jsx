@@ -26,11 +26,21 @@ import React, { useState, useEffect } from 'react';
 // ];
 
 export default function BuyerSelectProject() {
-    let subData = [];
+    const [subData, setSubData] = useState([
+        {
+            id: 1,
+            name: 'Plan 1',
+            price: 100,
+            term: 60
+        }
+    ]);
+    
     useEffect(() => {
         (async () => {
-            subData = await fetchSubscriptions();
-
+            let data;
+            data = await fetchSubscriptions();
+            console.log('data: ', data);
+            setSubData(data);
         })();
 
         return () => {
