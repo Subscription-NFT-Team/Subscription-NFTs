@@ -21,7 +21,7 @@ const networks = {
 
 export const networkName = networks[networkId];
 
-export const fetchProjects = async () => {
+export const fetchSubscriptions = async () => {
   // call the smart contract, read the current greeting value
   if (typeof window.ethereum !== "undefined") {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -36,7 +36,7 @@ export const fetchProjects = async () => {
     console.log(contract);
 
     try {
-      const data = await contract.getTemplate(0);
+      const data = await contract.subscriptionTemplates(0);
 
       console.log("data: ", data);
     } catch (err) {

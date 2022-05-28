@@ -10,6 +10,8 @@ contract SubscriptionNFT is ERC721 {
     Counters.Counter private _tokenIds;
     Counters.Counter private _subscriptionTemplateIds;
 
+    event CreatedSubscriptionTemplate(uint256 _subscriptionTemplateId);
+
     struct TokenData {
         uint256 subscriptionTemplateId;
         uint256 expirationTime;
@@ -41,7 +43,10 @@ contract SubscriptionNFT is ERC721 {
                 term: term
             }
         );
-        return newSubscriptionTemplateId;
+        
+        emit CreatedSubscriptionTemplate(newSubscriptionTemplateId);
+
+        return newSubscriptionTemplateId; 
 
     }   
 
@@ -63,7 +68,6 @@ contract SubscriptionNFT is ERC721 {
 
         return newTokenId;
     }
-
-    
+   
 
 }
