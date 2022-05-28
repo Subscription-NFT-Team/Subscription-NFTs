@@ -65,7 +65,7 @@ contract SubscriptionNFT is ERC721 {
 
     }   
 
-    function issueSubscriptionNFT(uint256 subscriptionTemplateId) public payable returns (uint256) {
+    function issueSubscriptionNFT(uint256 subscriptionTemplateId) external payable returns (uint256) {
 
         require(subscriptionTemplates[subscriptionTemplateId].creatorAddress != address(0), "A subscription template with this ID does not exist.");
 
