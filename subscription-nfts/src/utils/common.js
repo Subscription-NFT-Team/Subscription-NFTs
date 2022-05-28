@@ -36,9 +36,24 @@ export const fetchSubscriptions = async () => {
     console.log(contract);
 
     try {
-      const data = await contract.subscriptionTemplates();
-
-      console.log("data: ", data);
+      let arrData = [];
+      for (let i = 1; i < 6; i++) {
+        const data = await contract.subscriptionTemplates(i);
+        // console.log('data', data);
+        // console.log('data name', data[1]);
+        // console.log('data price', data[2].toNumber());
+        // console.log('data term', data[3].toNumber());
+        
+        let obj = {
+            id: i,
+            name: data[1],
+            price: data[2].toNumber(),
+            term: data[3].toNumber()
+        }
+        arrData.push(obj);
+      }
+      
+      console.log("arr data: ", arrData);
     } catch (err) {
       console.log("Error: ", err);
     }

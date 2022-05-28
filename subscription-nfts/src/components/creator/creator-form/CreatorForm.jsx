@@ -4,7 +4,7 @@ import { useContracts } from '../../../contexts';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { addSubscriptionTemplate } from "../../../utils/common"
+import { addSubscriptionTemplate } from "../../../utils/common";
 
 export default function CreatorForm() {
     // const { nftSubContract } = useContracts();
