@@ -44,7 +44,7 @@ export const fetchSubscriptions = async () => {
         // console.log('data price', data[2].toNumber());
         // console.log('data term', data[3].toNumber());
         let name = data[1];
-        let price = data[2].toNumber();
+        let price = data[2].toNumber() / (10**18); // convert wei to eth
         let term = data[3].toNumber();
         let termString;
         if (term == 60) {
@@ -89,7 +89,7 @@ export const addSubscriptionTemplate = async (name, price, term) => {
         console.log(contract);
         // string memory subscriptionName, uint256 price, uint256 term
         try {
-          const data = await contract.addCreator(name, price, term);
+          const data = await contract.addCreator(name, price * (10**18), term); // convert price into wei when submitting transaction
     
           console.log("data: ", data);
         } catch (err) {
