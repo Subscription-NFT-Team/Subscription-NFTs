@@ -72,9 +72,9 @@ contract SubscriptionNFT is ERC721 {
 
         SubscriptionTemplate memory subscriptionTemplate = subscriptionTemplates[subscriptionTemplateId];
 
-        require (msg.value >= subscriptionTemplate.price, "Value sent is less than subscription price.");
+        // require (msg.value >= subscriptionTemplate.price, "Value sent is less than subscription price.");
 
-        payable(subscriptionTemplate.creatorAddress).transfer(subscriptionTemplate.price);
+        // payable(subscriptionTemplate.creatorAddress).transfer(subscriptionTemplate.price);
 
         _tokenIds.increment();
         uint256 newTokenId = _tokenIds.current();

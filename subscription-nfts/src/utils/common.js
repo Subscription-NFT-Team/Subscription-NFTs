@@ -89,7 +89,7 @@ export const addSubscriptionTemplate = async (name, price, term) => {
         console.log(contract);
         // string memory subscriptionName, uint256 price, uint256 term
         try {
-          const data = await contract.createSubscriptionTemplate(name, price * (10**18), term); // convert price into wei when submitting transaction
+          const data = await contract.createSubscriptionTemplate(name, price, term); // convert price into wei when submitting transaction
 
     
           console.log("data: ", data);
@@ -150,7 +150,7 @@ export const checkForValidNFT = async (id) => {
             console.log('date now: ', now);
             if (subId === id) {
                 console.log('id match!');
-                if (now > expirationTime) {
+                if (now < expirationTime) {
                     console.log('youre approved');
                     return true;
                 }

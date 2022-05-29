@@ -24,7 +24,7 @@ export default function ProjectCard({ data }) {
                         Expires After: {data.term}
                     </Typography>
                     <Typography variant="body2">
-                        Price: ${data.price}
+                        Price: {data.price * (10**18)} ETH
                     </Typography>
                 </CardContent>
                 <CardActions>

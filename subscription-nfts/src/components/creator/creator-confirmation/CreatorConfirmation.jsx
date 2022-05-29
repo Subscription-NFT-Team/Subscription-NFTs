@@ -21,7 +21,7 @@ export default function CreatorConfirmation() {
             <Typography variant="h5" paddingBottom="30px">Subscription options generated.  Thank you for using our service!</Typography>
             <Typography variant="body2">Name: {name}</Typography>
             <Typography variant="body2">Expiration: {expirationTimeframe}</Typography>
-            <Typography variant="body2">Price: ${cost}</Typography>
+            <Typography variant="body2">Price: {cost} ETH</Typography>
         </div>
     );
 }

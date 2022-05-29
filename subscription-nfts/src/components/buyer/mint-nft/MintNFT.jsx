@@ -26,10 +26,11 @@ export default function MintNFT() {
     }
 
     const handleClick = async (event) => {
-        mintSubscriptionNFT(data.id);
+        
         event.preventDefault();
         // toast("Successfully minted NFT!");
         // await timeout(4000);
+        await mintSubscriptionNFT(data.id);
         navigate("/mint-confirmation", { state: { data: data }});
     }
 
