@@ -46,7 +46,7 @@ export default function MintNFT() {
                             Expires After: {data.term}
                         </Typography>
                         <Typography variant="body2">
-                            Price: ${data.price}
+                            Price: {data.price * (10**18)} ETH
                         </Typography>
                     </CardContent>
                     <CardActions>
