@@ -89,7 +89,8 @@ export const addSubscriptionTemplate = async (name, price, term) => {
         console.log(contract);
         // string memory subscriptionName, uint256 price, uint256 term
         try {
-          const data = await contract.addCreator(name, price * (10**18), term); // convert price into wei when submitting transaction
+          const data = await contract.createSubscriptionTemplate(name, price * (10**18), term); // convert price into wei when submitting transaction
+
     
           console.log("data: ", data);
         } catch (err) {

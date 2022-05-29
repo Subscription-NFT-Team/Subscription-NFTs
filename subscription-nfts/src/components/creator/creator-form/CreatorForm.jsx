@@ -32,22 +32,22 @@ export default function CreatorForm() {
 
     let navigate = useNavigate();
 
-    const mintNft = async (address) => {
-        try {
-            // will need to define this stuff
-            // const txn = await nftSubContract.mint(address);
-            // await txn.wait();
-            console.log('name: ', name);
-            console.log('name: ', name);
-            console.log('expiration: ', expirationTimeframe);
-            console.log('cost: ', cost);
-            addSubscriptionTemplate(name, cost, expirationTimeframe);
-            navigate("/creator-confirmation");
-        } catch (e) {
-            console.log(e);
-        }
-        toast("Wow so easy");
-    }
+    // const mintNft = async (address) => {
+    //     try {
+    //         // will need to define this stuff
+    //         // const txn = await nftSubContract.mint(address);
+    //         // await txn.wait();
+    //         console.log('name: ', name);
+    //         console.log('name: ', name);
+    //         console.log('expiration: ', expirationTimeframe);
+    //         console.log('cost: ', cost);
+    //         await addSubscriptionTemplate(name, cost, expirationTimeframe);
+    //         navigate("/creator-confirmation", { state: { name: name, cost: cost, expirationTimeframe: expirationTimeframe }});
+    //     } catch (e) {
+    //         console.log(e);
+    //     }
+    //     toast("Wow so easy");
+    // }
 
     const timeout = (ms) => {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -55,9 +55,14 @@ export default function CreatorForm() {
 
     const handleClick = async (event) => {
         event.preventDefault();
-        toast("Subscription options submitted!");
-        await timeout(4000);
-        navigate("/confirmation-creator");
+        // toast("Subscription options submitted!");console.log('name: ', name);
+        console.log('name: ', name);
+        console.log('expiration: ', expirationTimeframe);
+        console.log('cost: ', cost);
+        await addSubscriptionTemplate(name, cost, expirationTimeframe);
+        
+        // await timeout(4000);
+        navigate("/confirmation-creator", { state: { name: name, cost: cost, expirationTimeframe: expirationTimeframe }});
     }
 
     return (
